@@ -26,12 +26,22 @@ app.get('/api/hello', async (req, res) => {
     const locationData = await locationResponse.json();
     const city = locationData.city;
     const region = locationData.region;
+    if (!ip || !city || !region) {
+      return res.status(400).json({
+        message: 'Sorry we are having network issue , please try again',
+      });
+    }
 
     const weatherResponse = await fetch(
       `https://api.weatherapi.com/v1/current.json?q=${city}&key=${API_KEY}`
     );
     const weatherData = await weatherResponse.json();
     const temperature = weatherData.current.temp_c;
+    if (!weatherData) {
+      return res.status(400).json({
+        message: 'Sorry we are having issue with the weather, please try again',
+      });
+    }
     const response = {
       client_ip: ip,
       location: `${city}, ${region}`,
