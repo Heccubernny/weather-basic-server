@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const API_KEY = process.env.WEATHER_API_KEY;
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 const hostname = '0.0.0.0';
 
 const app = express();
@@ -24,7 +24,6 @@ app.get('/api/hello', async (req, res) => {
   try {
     const locationResponse = await fetch(`https://ipapi.co/${ip}/json`);
     const locationData = await locationResponse.json();
-    console.log(locationData);
     const city = locationData.city;
     const region = locationData.region;
 
@@ -32,7 +31,6 @@ app.get('/api/hello', async (req, res) => {
       `https://api.weatherapi.com/v1/current.json?q=${city}&key=${API_KEY}`
     );
     const weatherData = await weatherResponse.json();
-    console.log(weatherData);
     const temperature = weatherData.current.temp_c;
     const response = {
       client_ip: ip,
@@ -41,7 +39,6 @@ app.get('/api/hello', async (req, res) => {
     };
     res.status(200).json(response);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Something went wrong!' });
   }
 });
