@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const API_KEY = process.env.WEATHER_API_KEY;
 const PORT = process.env.PORT || 8000;
-const hostname = '0.0.0.0';
 
 const app = express();
 
@@ -14,7 +13,7 @@ app.get('/api/hello', async (req, res) => {
   const visitorName = req.query.visitor_name;
   if (!visitorName) {
     return res.status(404).json({
-      error: 'Endpoint not found or visitor_name not provided',
+      message: 'Endpoint not found or visitor_name not provided',
     });
   }
 
